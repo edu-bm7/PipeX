@@ -12,7 +12,7 @@ BONUS_DIR := bonus
 LIBFT_DIR := libft
 LIBFT := libft.a
 
-CFLAGS = -Wall -Wextra -Werror -g3 -I$(LIBFT_DIR) -I$(INC_DIR)
+CFLAGS = -Wall -Wextra -Werror -I$(LIBFT_DIR) -I$(INC_DIR)
 
 SRCS = $(addprefix $(MANDATORY_DIR)/, main.c\
 				forked_routine.c\
