@@ -1,6 +1,15 @@
-//
-// Created by eduardo on 2/4/23.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_data_bonus.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ebezerra <ebezerra@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/09 22:37:31 by ebezerra          #+#    #+#             */
+/*   Updated: 2023/02/09 22:37:32 by ebezerra         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex_bonus.h"
 
 static int	**fd_alloc_routine(int **fd, int cmd_num);
@@ -25,7 +34,6 @@ void	initialize_data(t_data *data, int argc, char **argv)
 	data->fd = allocate_fd(data->fd, data);
 	data->pid = ft_calloc(data->cmd_num, sizeof (*data->pid));
 	data->fd = create_pipes(data);
-	data->hdoc_status = 0;
 	data->status = 0;
 	data->last_status = 0;
 	data->bin_file = "";
@@ -41,7 +49,7 @@ int	**create_pipes(t_data *data)
 	{
 		if (pipe(data->fd[i]) == -1)
 		{
-			perror("Error: Pipe error");
+			perror("bash");
 			free_vars(data);
 			exit(EXIT_FAILURE);
 		}
@@ -55,7 +63,7 @@ int	**allocate_fd(int **fd, t_data *data)
 	fd = ft_calloc(data->cmd_num - 1, sizeof (*fd));
 	if (!fd)
 	{
-		perror("Error: Can't allocate memory to FD:");
+		perror("bash");
 		exit(EXIT_FAILURE);
 	}
 	return (fd_alloc_routine(fd, data->cmd_num));
@@ -73,7 +81,7 @@ static int	**fd_alloc_routine(int **fd, int cmd_num)
 		fd[i] = ft_calloc(2, sizeof (**fd));
 		if (!fd[i])
 		{
-			perror("Error: Can't allocate memory to fd:");
+			perror("bash");
 			while (j < i)
 			{
 				free(fd[j]);

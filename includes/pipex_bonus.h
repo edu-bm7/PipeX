@@ -1,6 +1,14 @@
-//
-// Created by eduardo on 1/26/23.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ebezerra <ebezerra@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/09 22:52:57 by ebezerra          #+#    #+#             */
+/*   Updated: 2023/02/09 22:59:47 by ebezerra         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef PIPEX_BONUS_H
 # define PIPEX_BONUS_H
@@ -20,31 +28,32 @@ typedef struct s_split
 	int		count;
 	char	**res;
 	int		in_quote;
-	int 	len;
+	int		len;
 	int		i;
-	int 	j;
+	int		j;
 }				t_split;
 
 typedef struct s_data
 {
 	pid_t	*pid;
-	int 	h_doc;
+	int		h_doc;
 	int		status;
-	int 	last_status;
-	int 	cmd_num;
-	int 	**fd;
-	int 	inc;
-	char 	*str;
-	char 	*trim_str;
-	char 	*limiter;
+	int		last_status;
+	int		cmd_num;
+	int		**fd;
+	int		inc;
+	char	*str;
+	char	*trim_str;
+	char	*limiter;
 	int		infile;
-	int 	outfile;
+	int		outfile;
 	char	*bin_file;
 	char	*cmd_path;
 	char	**cmd_args;
 }				t_data;
 
-void	forked_process_routine(char **argv, int argc, char **environ, t_data *data);
+void	forked_process_routine(char **argv, int argc, char **environ,
+			t_data *data);
 void	wait_for_processes(t_data *data);
 char	*get_bin_name(const char *command);
 void	pipe_write_to_stdout(int pipe_write, t_data *data);
@@ -66,4 +75,4 @@ void	intermediates_cmd_routine(t_data *data, int i);
 void	here_doc_routine(char **argv, t_data *data);
 t_bool	check_outfile_error(int outfile);
 
-# endif
+#endif

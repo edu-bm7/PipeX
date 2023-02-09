@@ -1,5 +1,5 @@
 # C Compiler (Clang-12)
-CC := clang
+CC := cc
 # Libft Variables
 NAME := libft.a
 SRCS_DIR := srcs/

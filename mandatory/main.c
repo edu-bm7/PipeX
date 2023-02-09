@@ -6,7 +6,7 @@
 /*   By: ebezerra <ebezerra@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 20:23:56 by ebezerra          #+#    #+#             */
-/*   Updated: 2023/01/05 21:09:30 by ebezerra         ###   ########.fr       */
+/*   Updated: 2023/02/09 22:33:31 by ebezerra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	main(int argc, char *argv[])
 
 	if (argc != 5)
 	{
-		perror("Error: Usage: ./pipex infile cmd1 cmd2 outfile");
+		ft_dprintf(STDERR_FILENO, "Error: Usage: ./pipex infile cmd1 cmd2 ");
+		ft_dprintf(STDERR_FILENO, "outfile\n");
 		exit(EXIT_FAILURE);
 	}
 	if (pipe(fd) == -1)

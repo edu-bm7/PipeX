@@ -1,13 +1,22 @@
-//
-// Created by eduardo on 1/24/23.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   forked_routine_bonus.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ebezerra <ebezerra@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/09 22:36:20 by ebezerra          #+#    #+#             */
+/*   Updated: 2023/02/09 22:36:44 by ebezerra         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-static void		check_cmd_not_found(const char *cmd, t_data *data);
+static void		check_cmd_not_found(const char *cmd, t_data *data,
+					char *bin_file);
 static void		child_proc_routine(char **argv, char **environ,
 					t_data *data, int i);
-static void		parent_proc_routine(int **fd, int i);
+static void		parent_proc_routine(t_data *data, int i);
 
 void	forked_process_routine(char **argv, int argc,
 									char **environ, t_data *data)
@@ -16,19 +25,21 @@ void	forked_process_routine(char **argv, int argc,
 
 	i = 0;
 	initialize_data(data, argc, argv);
+	if (ft_strcmp(argv[1], "here_doc") == 0)
+		here_doc_routine(argv, data);
 	while (i < data->cmd_num)
 	{
 		data->pid[i] = fork();
 		if (data->pid[i] == -1)
 		{
-			perror("Error: Fork error");
+			perror("bash");
 			free_vars(data);
 			exit(EXIT_FAILURE);
 		}
 		else if (data->pid[i] == 0)
 			child_proc_routine(argv, environ, data, i);
 		else
-			parent_proc_routine(data->fd, i);
+			parent_proc_routine(data, i);
 		i++;
 	}
 	wait_routine(data);
@@ -44,8 +55,8 @@ static void	child_proc_routine(char **argv, char **environ, t_data *data, int i)
 		intermediates_cmd_routine(data, i);
 	data->bin_file = get_bin_name(argv[i + data->inc]);
 	data->cmd_path = cmd_path_routine(data->bin_file);
+	check_cmd_not_found(data->cmd_path, data, data->bin_file);
 	free(data->bin_file);
-	check_cmd_not_found(data->cmd_path, data);
 	if (check_for_quotes(argv[i + data->inc]))
 		data->cmd_args = split_with_quotes(argv[i + data->inc]);
 	else
@@ -54,20 +65,20 @@ static void	child_proc_routine(char **argv, char **environ, t_data *data, int i)
 	handle_exec_errors(data->cmd_path, data->cmd_args, data);
 }
 
-static void	parent_proc_routine(int **fd, int i)
+static void	parent_proc_routine(t_data *data, int i)
 {
 	if (i > 0)
 	{
-		close(fd[i - 1][0]);
-		close(fd[i - 1][1]);
+		close(data->fd[i - 1][0]);
+		close(data->fd[i - 1][1]);
 	}
 }
 
-static void	check_cmd_not_found(const char *cmd, t_data *data)
+static void	check_cmd_not_found(const char *cmd, t_data *data, char *bin_file)
 {
 	if (cmd == NULL)
 	{
-		perror("Command not found");
+		ft_dprintf(STDERR_FILENO, "%s: command not found\n", bin_file);
 		free_vars(data);
 		exit(CMDNFND);
 	}

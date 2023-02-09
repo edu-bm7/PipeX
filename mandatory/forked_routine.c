@@ -1,10 +1,18 @@
-//
-// Created by eduardo on 1/24/23.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   forked_routine.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ebezerra <ebezerra@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/09 22:34:10 by ebezerra          #+#    #+#             */
+/*   Updated: 2023/02/09 22:34:54 by ebezerra         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "pipex.h"
 
-static void		check_cmd_not_found(const char *cmd);
+static void		check_cmd_not_found(const char *cmd, char *bin_file);
 static void		pid1_routine(int *fd, char **argv, char **environ);
 static void		pid2_routine(int *fd, char **argv, char **environ);
 static t_bool	check_outfile_error(int outfile);
@@ -25,7 +33,7 @@ void	forked_proccesses_routine(int *fd, char **argv, char **environ)
 	pid2 = fork();
 	if (pid2 == -1)
 	{
-		perror("Error: Fork error:");
+		perror("Error: Fork error");
 		exit(EXIT_FAILURE);
 	}
 	if (pid2 == 0)
@@ -45,14 +53,17 @@ static void	pid1_routine(int *fd, char **argv, char **environ)
 	close(fd[0]);
 	infile = open(argv[1], O_RDONLY);
 	if (infile == -1)
-		perror("Error:");
+	{
+		ft_dprintf(STDERR_FILENO, "bash: %s: ", argv[1]);
+		perror("");
+	}
 	pipe_write_to_stdout(fd[1]);
 	input_file_to_stdin(infile);
 	close(infile);
 	bin_file1 = get_bin_name(argv[2]);
 	cmd1_path = cmd_path_routine(bin_file1);
+	check_cmd_not_found(cmd1_path, bin_file1);
 	free(bin_file1);
-	check_cmd_not_found(cmd1_path);
 	if (check_for_quotes(argv[2]))
 		cmd1_args = split_with_quotes(argv[2]);
 	else
@@ -77,8 +88,8 @@ static void	pid2_routine(int *fd, char **argv, char **environ)
 	close(outfile);
 	bin_file2 = get_bin_name(argv[3]);
 	cmd2_path = cmd_path_routine(bin_file2);
+	check_cmd_not_found(cmd2_path, bin_file2);
 	free(bin_file2);
-	check_cmd_not_found(cmd2_path);
 	if (check_for_quotes(argv[3]))
 		cmd2_args = split_with_quotes(argv[3]);
 	else
@@ -97,11 +108,11 @@ static t_bool	check_outfile_error(int outfile)
 	return (false_);
 }
 
-static void	check_cmd_not_found(const char *cmd)
+static void	check_cmd_not_found(const char *cmd, char *bin_file)
 {
 	if (cmd == NULL)
 	{
-		perror("Command not found");
+		ft_dprintf(STDERR_FILENO, "%s: command not found\n", bin_file);
 		exit(CMDNFND);
 	}
 }

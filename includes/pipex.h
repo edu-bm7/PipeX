@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebezerra <ebezerra@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 20:26:16 by ebezerra          #+#    #+#             */
-/*   Updated: 2023/01/05 01:47:32 by ebezerra         ###   ########.fr       */
+/*   Updated: 2023/02/09 22:52:27 by ebezerra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ typedef struct s_split
 	int		count;
 	char	**res;
 	int		in_quote;
-	int 	len;
+	int		len;
 	int		i;
-	int 	j;
+	int		j;
 }				t_split;
 
 void		forked_proccesses_routine(int *fd, char **argv, char **environ);

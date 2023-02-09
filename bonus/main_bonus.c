@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ebezerra <ebezerra@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/04 20:23:56 by ebezerra          #+#    #+#             */
-/*   Updated: 2023/01/05 21:09:30 by ebezerra         ###   ########.fr       */
+/*   Updated: 2023/02/09 23:26:43 by ebezerra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ int	main(int argc, char *argv[])
 
 	if (argc < 5)
 	{
-		perror("Error: Usage: ./pipex infile cmd1 cmd2 outfile");
+		ft_dprintf(STDERR_FILENO, "\t./pipex infile cmd1 cmd2 [cmdN] ");
+		ft_dprintf(STDERR_FILENO, ". . . outfile\n");
+		ft_dprintf(STDERR_FILENO, "Usage:  ./pipex here_doc LIMITER cmd1 cmd2");
+		ft_dprintf(STDERR_FILENO, " [cmdN] . . . outfile\n");
 		exit(EXIT_FAILURE);
 	}
 	forked_process_routine(argv, argc, environ, &data);

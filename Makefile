@@ -1,5 +1,5 @@
 # C Compiler (Clang-12)
-CC := clang
+CC := cc
 # PipeX Variables
 NAME := pipex
 NAME_BONUS := .pipex_bonus.txt

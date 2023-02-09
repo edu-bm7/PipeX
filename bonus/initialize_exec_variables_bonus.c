@@ -1,6 +1,15 @@
-//
-// Created by eduardo on 1/24/23.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   initialize_exec_variables_bonus.c                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ebezerra <ebezerra@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/09 22:35:46 by ebezerra          #+#    #+#             */
+/*   Updated: 2023/02/09 22:35:47 by ebezerra         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "pipex_bonus.h"
 
 static char	*get_cmd_path(const char *command);
@@ -21,11 +30,17 @@ char	*cmd_path_routine(char *bin_file)
 {
 	char	*cmd_path;
 
+	if (ft_strcmp(bin_file, "") == 0)
+	{
+		ft_dprintf(STDERR_FILENO, "bash: '': command not found\n");
+		exit(CMDNFND);
+	}
 	if (access(bin_file, F_OK) != -1)
 	{
 		if (access(bin_file, X_OK) == -1)
 		{
-			perror("Error: ");
+			ft_dprintf(STDERR_FILENO, "bash: %s: ", bin_file);
+			perror("");
 			exit(NOTEXEC);
 		}
 	}
