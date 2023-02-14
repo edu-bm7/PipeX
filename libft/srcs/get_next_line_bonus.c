@@ -43,6 +43,11 @@ char	*get_next_line(int fd)
 	}
 	tmp = parse_nl(buffer[fd], str_len + 1);
 	buffer[fd] = next_line(new_line, buffer[fd]);
+	if (buffer[fd] && buffer[fd][0] == '\0')
+	{
+		free(buffer[fd]);
+		buffer[fd] = NULL;
+	}
 	return (tmp);
 }
 

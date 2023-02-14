@@ -28,6 +28,7 @@ void	here_doc_routine(char **argv, t_data *data)
 		data->trim_str = ft_strtrim(data->str, "\n");
 		if (ft_strcmp(data->trim_str, data->limiter) == 0)
 		{
+			free(data->str);
 			free(data->trim_str);
 			break ;
 		}
