@@ -54,7 +54,7 @@ static void	child_proc_routine(char **argv, char **environ, t_data *data, int i)
 	if (i > 0 && i < data->cmd_num - 1)
 		intermediates_cmd_routine(data, i);
 	data->bin_file = get_bin_name(argv[i + data->inc]);
-	data->cmd_path = cmd_path_routine(data->bin_file);
+	data->cmd_path = cmd_path_routine(data->bin_file, data);
 	check_cmd_not_found(data->cmd_path, data, data->bin_file);
 	free(data->bin_file);
 	if (check_for_quotes(argv[i + data->inc]))

@@ -26,13 +26,15 @@ char	*get_bin_name(const char *command)
 	return (bin_name);
 }
 
-char	*cmd_path_routine(char *bin_file)
+char	*cmd_path_routine(char *bin_file, t_data *data)
 {
 	char	*cmd_path;
 
 	if (ft_strcmp(bin_file, "") == 0)
 	{
 		ft_dprintf(STDERR_FILENO, "bash: '': command not found\n");
+		free(bin_file);
+		free_vars(data);
 		exit(CMDNFND);
 	}
 	if (access(bin_file, F_OK) != -1)
@@ -41,6 +43,8 @@ char	*cmd_path_routine(char *bin_file)
 		{
 			ft_dprintf(STDERR_FILENO, "bash: %s: ", bin_file);
 			perror("");
+			free(bin_file);
+			free_vars(data);
 			exit(NOTEXEC);
 		}
 	}

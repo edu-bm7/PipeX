@@ -17,6 +17,7 @@
 static char	*next_line(char *line, char *buffer);
 static char	*parse_nl(char *s1, size_t len);
 static char	*read_nl(char *buffer, int fd);
+static void	free_buffer(char **buffer, int fd);
 
 // MAX_FD is the size get from "ulimit -Sn", who shows the soft limit of open
 // file descriptors the 42 workspace can have.
@@ -43,11 +44,7 @@ char	*get_next_line(int fd)
 	}
 	tmp = parse_nl(buffer[fd], str_len + 1);
 	buffer[fd] = next_line(new_line, buffer[fd]);
-	if (buffer[fd] && buffer[fd][0] == '\0')
-	{
-		free(buffer[fd]);
-		buffer[fd] = NULL;
-	}
+	free_buffer(buffer, fd);
 	return (tmp);
 }
 
@@ -115,4 +112,13 @@ static char	*read_nl(char *buffer, int fd)
 	}
 	free(tmp);
 	return (buffer);
+}
+
+static void	free_buffer(char **buffer, int fd)
+{
+	if (buffer[fd] && buffer[fd][0] == '\0')
+	{
+		free(buffer[fd]);
+		buffer[fd] = NULL;
+	}
 }

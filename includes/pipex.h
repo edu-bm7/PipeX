@@ -33,16 +33,16 @@ typedef struct s_split
 	int		j;
 }				t_split;
 
-void		forked_proccesses_routine(int *fd, char **argv, char **environ);
-void		wait_for_processes(pid_t pid1, pid_t pid2);
-char		*get_bin_name(const char *command);
-void		pipe_write_to_stdout(int pipe_write);
-void		pipe_read_to_stdin(int pipe_read);
-void		input_file_to_stdin(int infile);
-void		output_file_to_stdout(int outfile);
-char		*cmd_path_routine(char *bin_file);
-void		handle_exec_errors(char *cmd_path, char **cmd_args);
-char		**split_with_quotes(const char *s);
-t_bool		check_for_quotes(char *cmd);
+void	forked_proccesses_routine(int *fd, char **argv, char **environ);
+void	wait_for_processes(pid_t pid1, pid_t pid2);
+char	*get_bin_name(const char *command);
+void	pipe_write_to_stdout(int pipe_write);
+void	pipe_read_to_stdin(int pipe_read);
+void	input_file_to_stdin(int infile);
+void	output_file_to_stdout(int outfile);
+char	*cmd_path_routine(char *bin_file);
+void	handle_exec_errors(char *cmd_path, char **cmd_args);
+char	**split_with_quotes(const char *s);
+t_bool	check_for_quotes(char *cmd);
 
 #endif

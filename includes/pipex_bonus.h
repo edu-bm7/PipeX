@@ -60,7 +60,7 @@ void	pipe_write_to_stdout(int pipe_write, t_data *data);
 void	pipe_read_to_stdin(int pipe_read, t_data *data);
 void	input_file_to_stdin(int infile, t_data *data);
 void	output_file_to_stdout(int outfile, t_data *data);
-char	*cmd_path_routine(char *bin_file);
+char	*cmd_path_routine(char *bin_file, t_data *data);
 void	handle_exec_errors(char *cmd_path, char **cmd_args, t_data *data);
 char	**split_with_quotes(const char *s);
 t_bool	check_for_quotes(char *cmd);
