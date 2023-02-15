@@ -113,6 +113,7 @@ static void	check_cmd_not_found(const char *cmd, char *bin_file)
 	if (cmd == NULL)
 	{
 		ft_dprintf(STDERR_FILENO, "%s: command not found\n", bin_file);
+		free(bin_file);
 		exit(CMDNFND);
 	}
 }
