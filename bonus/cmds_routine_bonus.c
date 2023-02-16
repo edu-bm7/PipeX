@@ -17,7 +17,6 @@ void	first_cmd_routine(t_data *data, char **argv, int i)
 	close(data->fd[i][0]);
 	if (ft_strcmp(argv[1], "here_doc") != 0)
 	{
-		close(data->fd[i][0]);
 		data->infile = open(argv[1], O_RDONLY);
 		if (data->infile == -1)
 		{
