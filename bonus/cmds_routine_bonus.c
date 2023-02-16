@@ -20,7 +20,7 @@ void	first_cmd_routine(t_data *data, char **argv, int i)
 		data->infile = open(argv[1], O_RDONLY);
 		if (data->infile == -1)
 		{
-			ft_dprintf(STDERR_FILENO, "bash: %s:", argv[1]);
+			ft_dprintf(STDERR_FILENO, "bash: %s: ", argv[1]);
 			perror("");
 		}
 		input_file_to_stdin(data->infile, data);

@@ -36,6 +36,8 @@ char	*cmd_path_routine(char *bin_file)
 		free(bin_file);
 		exit(CMDNFND);
 	}
+	if (ft_strchr(bin_file, '/') != NULL)
+		return (ft_strdup(bin_file));
 	if (access(bin_file, F_OK) != -1)
 	{
 		if (access(bin_file, X_OK) == -1)

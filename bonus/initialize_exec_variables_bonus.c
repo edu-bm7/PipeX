@@ -13,6 +13,7 @@
 #include "pipex_bonus.h"
 
 static char	*get_cmd_path(const char *command);
+static void	check_not_exec(char *bin_file, t_data *data);
 
 char	*get_bin_name(const char *command)
 {
@@ -37,17 +38,9 @@ char	*cmd_path_routine(char *bin_file, t_data *data)
 		free_vars(data);
 		exit(CMDNFND);
 	}
-	if (access(bin_file, F_OK) != -1)
-	{
-		if (access(bin_file, X_OK) == -1)
-		{
-			ft_dprintf(STDERR_FILENO, "bash: %s: ", bin_file);
-			perror("");
-			free(bin_file);
-			free_vars(data);
-			exit(NOTEXEC);
-		}
-	}
+	if (ft_strchr(bin_file, '/') != NULL)
+		return (ft_strdup(bin_file));
+	check_not_exec(bin_file, data);
 	if (access(bin_file, F_OK) == -1 && access(bin_file, X_OK) == -1)
 		cmd_path = get_cmd_path(bin_file);
 	else
@@ -82,4 +75,19 @@ static char	*get_cmd_path(const char *command)
 		free(dir[i++]);
 	free(dir);
 	return (cmd_path);
+}
+
+static void	check_not_exec(char *bin_file, t_data *data)
+{
+	if (access(bin_file, F_OK) != -1)
+	{
+		if (access(bin_file, X_OK) == -1)
+		{
+			ft_dprintf(STDERR_FILENO, "bash: %s: ", bin_file);
+			perror("");
+			free(bin_file);
+			free_vars(data);
+			exit(NOTEXEC);
+		}
+	}
 }

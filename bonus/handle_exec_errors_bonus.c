@@ -16,11 +16,23 @@ void	handle_exec_errors(char *cmd_path, char **cmd_args, t_data *data)
 {
 	if (cmd_path)
 	{
-		ft_dprintf(STDERR_FILENO, "bash: %s: Is a directory\n", cmd_path);
-		free(cmd_path);
-		free_str_array(cmd_args);
-		free_vars(data);
-		exit(NOTEXEC);
+		if (access(cmd_path, F_OK) == 0 && access(cmd_path, R_OK | X_OK) == 0)
+		{
+			ft_dprintf(STDERR_FILENO, "bash: %s: Is a directory\n", cmd_path);
+			free(cmd_path);
+			free_str_array(cmd_args);
+			free_vars(data);
+			exit(NOTEXEC);
+		}
+		else
+		{
+			ft_dprintf(STDERR_FILENO, "bash: %s: ", cmd_path);
+			ft_dprintf(STDERR_FILENO, "No such file or directory\n");
+			free(cmd_path);
+			free_str_array(cmd_args);
+			free_vars(data);
+			exit(CMDNFND);
+		}
 	}
 	free(cmd_path);
 	free_str_array(cmd_args);
