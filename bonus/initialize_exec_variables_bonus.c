@@ -14,6 +14,7 @@
 
 static char	*get_cmd_path(const char *command);
 static void	check_not_exec(char *bin_file, t_data *data);
+static void	check_not_exec_path(char *bin_file, t_data *data);
 
 char	*get_bin_name(const char *command)
 {
@@ -39,7 +40,12 @@ char	*cmd_path_routine(char *bin_file, t_data *data)
 		exit(CMDNFND);
 	}
 	if (ft_strchr(bin_file, '/') != NULL)
-		return (ft_strdup(bin_file));
+	{
+		if (access(bin_file, F_OK) == 0 && access(bin_file, X_OK) != 0)
+			check_not_exec_path(bin_file, data);
+		else
+			return (ft_strdup(bin_file));
+	}
 	check_not_exec(bin_file, data);
 	if (access(bin_file, F_OK) == -1 && access(bin_file, X_OK) == -1)
 		cmd_path = get_cmd_path(bin_file);
@@ -90,4 +96,12 @@ static void	check_not_exec(char *bin_file, t_data *data)
 			exit(NOTEXEC);
 		}
 	}
+}
+
+static void	check_not_exec_path(char *bin_file, t_data *data)
+{
+	ft_dprintf(STDERR_FILENO, "bash: %s: Permission denied\n", bin_file);
+	free(bin_file);
+	free_vars(data);
+	exit(NOTEXEC);
 }

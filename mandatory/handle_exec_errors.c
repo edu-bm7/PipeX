@@ -16,7 +16,7 @@ void	handle_exec_errors(char *cmd_path, char **cmd_args)
 {
 	if (cmd_path)
 	{
-		if (access(cmd_path, F_OK) == 0 && access(cmd_path, R_OK | X_OK) == 0)
+		if (access(cmd_path, F_OK) == 0 && access(cmd_path, R_OK) == 0)
 		{
 			ft_dprintf(STDERR_FILENO, "bash: %s: Is a directory\n", cmd_path);
 			free(cmd_path);
