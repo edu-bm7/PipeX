@@ -12,11 +12,11 @@
 
 #include "pipex_bonus.h"
 
-static void		check_cmd_not_found(const char *cmd, t_data *data,
-					char *bin_file);
-static void		child_proc_routine(char **argv, char **environ,
-					t_data *data, int i);
-static void		parent_proc_routine(t_data *data, int i);
+static void	check_cmd_not_found(const char *cmd, t_data *data, char *bin_file);
+static void	child_proc_routine(char **argv, char **environ, t_data *data,
+				int i);
+static void	parent_proc_routine(t_data *data, int i);
+static void	invalid_num_quotes(t_data *data);
 
 void	forked_process_routine(char **argv, int argc,
 									char **environ, t_data *data)
@@ -56,11 +56,15 @@ static void	child_proc_routine(char **argv, char **environ, t_data *data, int i)
 	data->bin_file = get_bin_name(argv[i + data->inc]);
 	data->cmd_path = cmd_path_routine(data->bin_file, data);
 	check_cmd_not_found(data->cmd_path, data, data->bin_file);
-	free(data->bin_file);
 	if (check_for_quotes(argv[i + data->inc]))
+	{
 		data->cmd_args = split_with_quotes(argv[i + data->inc]);
+		if (!data->cmd_args)
+			invalid_num_quotes(data);
+	}
 	else
 		data->cmd_args = ft_split(argv[i + data->inc], ' ');
+	free(data->bin_file);
 	execve(data->cmd_path, data->cmd_args, environ);
 	handle_exec_errors(data->cmd_path, data->cmd_args, data);
 }
@@ -72,6 +76,16 @@ static void	parent_proc_routine(t_data *data, int i)
 		close(data->fd[i - 1][0]);
 		close(data->fd[i - 1][1]);
 	}
+}
+
+static void	invalid_num_quotes(t_data *data)
+{
+	free_vars(data);
+	free(data->cmd_path);
+	ft_dprintf(STDERR_FILENO, "%s: ", data->bin_file);
+	ft_dprintf(STDERR_FILENO, "Invalid number of quotes\n");
+	free(data->bin_file);
+	exit(EXIT_FAILURE);
 }
 
 static void	check_cmd_not_found(const char *cmd, t_data *data, char *bin_file)

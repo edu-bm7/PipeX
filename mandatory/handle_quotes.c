@@ -35,6 +35,8 @@ char	**split_with_quotes(const char *s)
 	t_split	splitted;
 
 	splitted.count = count_tokens(s, &splitted);
+	if (splitted.count == -1)
+		return (NULL);
 	splitted.res = ft_calloc((splitted.count + 2), sizeof(char *));
 	splitted.res = splitted_result(s, &splitted);
 	return (splitted.res);
@@ -43,8 +45,10 @@ char	**split_with_quotes(const char *s)
 static int	count_tokens(const char *s, t_split *splitted)
 {
 	int	i;
+	int	quotes_num;
 
 	i = 0;
+	quotes_num = 0;
 	splitted->count = 0;
 	splitted->in_quote = false_;
 	while (s[i])
@@ -53,12 +57,15 @@ static int	count_tokens(const char *s, t_split *splitted)
 		{
 			splitted->in_quote = !splitted->in_quote;
 			i++;
+			quotes_num++;
 			continue ;
 		}
 		if (!splitted->in_quote && s[i] == ' ')
 			splitted->count++;
 		i++;
 	}
+	if (quotes_num % 2 != 0)
+		return (-1);
 	return (splitted->count);
 }
 

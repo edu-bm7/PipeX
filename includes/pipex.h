@@ -44,5 +44,7 @@ char	*cmd_path_routine(char *bin_file);
 void	handle_exec_errors(char *cmd_path, char **cmd_args);
 char	**split_with_quotes(const char *s);
 t_bool	check_for_quotes(char *cmd);
+void	invalid_num_quotes(char **cmd_args, char *cmd_path, char *bin_file);
+void	check_infile_error(int infile, char **argv);
 
 #endif

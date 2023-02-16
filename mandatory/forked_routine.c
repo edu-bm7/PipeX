@@ -52,22 +52,21 @@ static void	pid1_routine(int *fd, char **argv, char **environ)
 
 	close(fd[0]);
 	infile = open(argv[1], O_RDONLY);
-	if (infile == -1)
-	{
-		ft_dprintf(STDERR_FILENO, "bash: %s: ", argv[1]);
-		perror("");
-	}
+	check_infile_error(infile, argv);
 	pipe_write_to_stdout(fd[1]);
 	input_file_to_stdin(infile);
 	close(infile);
 	bin_file1 = get_bin_name(argv[2]);
 	cmd1_path = cmd_path_routine(bin_file1);
 	check_cmd_not_found(cmd1_path, bin_file1);
-	free(bin_file1);
 	if (check_for_quotes(argv[2]))
+	{
 		cmd1_args = split_with_quotes(argv[2]);
+		invalid_num_quotes(cmd1_args, cmd1_path, bin_file1);
+	}
 	else
 		cmd1_args = ft_split(argv[2], ' ');
+	free(bin_file1);
 	execve(cmd1_path, cmd1_args, environ);
 	handle_exec_errors(cmd1_path, cmd1_args);
 }
@@ -89,11 +88,14 @@ static void	pid2_routine(int *fd, char **argv, char **environ)
 	bin_file2 = get_bin_name(argv[3]);
 	cmd2_path = cmd_path_routine(bin_file2);
 	check_cmd_not_found(cmd2_path, bin_file2);
-	free(bin_file2);
 	if (check_for_quotes(argv[3]))
+	{
 		cmd2_args = split_with_quotes(argv[3]);
+		invalid_num_quotes(cmd2_args, cmd2_path, bin_file2);
+	}
 	else
 		cmd2_args = ft_split(argv[3], ' ');
+	free(bin_file2);
 	execve(cmd2_path, cmd2_args, environ);
 	handle_exec_errors(cmd2_path, cmd2_args);
 }

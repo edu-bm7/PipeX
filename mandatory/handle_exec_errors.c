@@ -37,3 +37,23 @@ void	handle_exec_errors(char *cmd_path, char **cmd_args)
 	perror("bash: ");
 	exit(EXIT_FAILURE);
 }
+
+void	invalid_num_quotes(char **cmd_args, char *cmd_path, char *bin_file)
+{
+	if (!cmd_args)
+	{
+		free(cmd_path);
+		ft_dprintf(STDERR_FILENO, "%s: Invalid number of quotes\n", bin_file);
+		free(bin_file);
+		exit(EXIT_FAILURE);
+	}
+}
+
+void	check_infile_error(int infile, char **argv)
+{
+	if (infile == -1)
+	{
+		ft_dprintf(STDERR_FILENO, "bash: %s: ", argv[1]);
+		perror("");
+	}
+}

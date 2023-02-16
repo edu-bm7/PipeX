@@ -19,9 +19,17 @@ int	main(int argc, char *argv[])
 
 	if (argc < 5)
 	{
-		ft_dprintf(STDERR_FILENO, "\t./pipex infile cmd1 cmd2 [cmdN] ");
+		ft_dprintf(STDERR_FILENO, "Usage:  ./pipex infile cmd1 cmd2 [cmdN] ");
 		ft_dprintf(STDERR_FILENO, ". . . outfile\n");
-		ft_dprintf(STDERR_FILENO, "Usage:  ./pipex here_doc LIMITER cmd1 cmd2");
+		ft_dprintf(STDERR_FILENO, "\t./pipex here_doc LIMITER cmd1 cmd2");
+		ft_dprintf(STDERR_FILENO, " [cmdN] . . . outfile\n");
+		exit(EXIT_FAILURE);
+	}
+	if (ft_strcmp(argv[1], "here_doc") == 0 && argc < 6)
+	{
+		ft_dprintf(STDERR_FILENO, "Usage:  ./pipex infile cmd1 cmd2 [cmdN] ");
+		ft_dprintf(STDERR_FILENO, ". . . outfile\n");
+		ft_dprintf(STDERR_FILENO, ".\t/pipex here_doc LIMITER cmd1 cmd2");
 		ft_dprintf(STDERR_FILENO, " [cmdN] . . . outfile\n");
 		exit(EXIT_FAILURE);
 	}
